@@ -1714,51 +1714,13 @@ function OrionLib:MakeWindow(WindowConfig)
 		Time = 5
 	})
 	
--- Depois que o MainFrame foi criado
-local function MakeDraggable(Frame)
-    local UserInputService = game:GetService("UserInputService")
-    local dragging, dragInput, dragStart, startPos
 
-    Frame.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            dragging = true
-            dragStart = input.Position
-            startPos = Frame.Position
-            input.Changed:Connect(function()
-                if input.UserInputState == Enum.UserInputState.End then
-                    dragging = false
-                end
-            end)
-        end
-    end)
+	
+	return TabFunction
+end   
 
-    Frame.InputChanged:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-            dragInput = input
-        end
-    end)
-
-    UserInputService.InputChanged:Connect(function(input)
-        if input == dragInput and dragging then
-            local delta = input.Position - dragStart
-            Frame.Position = UDim2.new(
-                startPos.X.Scale,
-                startPos.X.Offset + delta.X,
-                startPos.Y.Scale,
-                startPos.Y.Offset + delta.Y
-            )
-        end
-    end)
-end
-
-MakeDraggable(MainFrame) -- aplica drag na janela
-
--- ⚠️ Depois disso, continua normalmente a função que retorna TabFunction
-return TabFunction
-
--- E aqui continua a biblioteca, sem interferir no drag
 function OrionLib:Destroy()
-    Orion:Destroy()
+	Orion:Destroy()
 end
 
 return OrionLib
